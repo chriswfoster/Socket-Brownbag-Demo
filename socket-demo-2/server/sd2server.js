@@ -20,10 +20,14 @@ socket.on('FromSD1', function(data) {
   
   sd1text = data.data1
 });
+let sd1text = "waiting on message 1..."
 
-let sd1text = "waiting on message..."
-let interval;
+
+
+
+
 ///////////////////////////////////////////// This is where I broadcast the socket.
+let interval;
 io.on("connection", socket => {
     if (interval) {
         clearInterval(interval);

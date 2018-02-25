@@ -8,8 +8,10 @@ const app = express()
 app.use(index)
 const server = http.createServer(app)
 const io = socketIo(server)
+const oi = require("socket.io-client")
 
-var oi = require("socket.io-client")
+
+
 
 var socket = oi.connect("http://localhost:3200", { reconnect: true })
 console.log("2")
@@ -18,8 +20,11 @@ socket.on("FromSD2", function(data) {
   console.log(data)
   data ? (sd2text = data.data2) : null
 })
+let sd2text = "waiting on response 2..."
 
-let sd2text = "waiting on response..."
+
+
+
 let interval;
 io.on("connection", socket => {
     if (interval) {
