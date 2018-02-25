@@ -11,7 +11,7 @@ class App extends Component {
   componentDidMount() {
     const { endpoint } = this.state;
     const socket = socketIOClient(endpoint);
-    socket.on("FromAPI", data => this.setState({ response: data }));
+    socket.on("FromSD1", data => console.log(data) && this.setState({ response: data }));
   }
   render() {
     const { response } = this.state;
@@ -20,6 +20,7 @@ class App extends Component {
         {response
           ? <p>
               The temperature in Allen is: {response} °F
+              And the info from the other server is:
             </p>
           : <p>Loading...</p>}
       </div>

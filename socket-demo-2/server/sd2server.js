@@ -10,35 +10,51 @@ const server = http.createServer(app);
 const io = socketIo(server);
 
 
+///////////////////////////////////////////// This is where I listen to the other server.
 var oi = require('socket.io-client');
 
 var socket = oi.connect('http://localhost:3100', {reconnect: true});
 console.log('2');
 // Add a connect listener
-socket.on('connect', function(socket) { 
-  console.log('Connected!');
+socket.on('FromSD1', function(data) { 
+  
+  sd1text = data.data1
 });
 
+let sd1text = "waiting on message..."
 
-
-
-
-
+///////////////////////////////////////////// This is where I broadcast the socket.
 io.on("connection", socket => {
-  console.log("New client connected"), setInterval(
-    () => getApiAndEmit(socket),
-    10000
-  );
-  socket.on("disconnect", () => console.log("Client disconnected"));
+    var intervalId = setInterval(
+        () => getApiAndEmit(socket),
+        5000
+      );
+      socket.on("disconnect", () => { 
+        console.log("Client disconnected")
+          clearInterval(intervalId)});
 });
+
 const getApiAndEmit = async socket => {
   try {
-    const res = await axios.get(
-      "https://api.darksky.net/forecast/84c6deb29aaaa73d725984c8194c258a/33.1032,-96.6706"
-    );
-    socket.emit("FromAPI", res.data.currently.temperature);
+    const sd2obj = {
+        data2: "This is the SD2 message",
+        data1: sd1text
+    }
+    console.log(sd2obj)
+    socket.emit("FromSD2", obj);
   } catch (error) {
     console.error(`Error: ${error.code}`);
   }
 };
+
+
+
+
+
+
+
+
+
+
+
 server.listen(port, () => console.log(`Listening on port ${port}`));
