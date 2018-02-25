@@ -8,6 +8,21 @@ const app = express();
 app.use(index);
 const server = http.createServer(app);
 const io = socketIo(server);
+
+
+var oi = require('socket.io-client');
+
+var socket = oi.connect('http://localhost:3200', {reconnect: true});
+console.log('2');
+// Add a connect listener
+socket.on('connect', function(socket) { 
+  console.log('Connected!');
+});
+
+
+
+
+
 io.on("connection", socket => {
   console.log("New client connected"), setInterval(
     () => getApiAndEmit(socket),
