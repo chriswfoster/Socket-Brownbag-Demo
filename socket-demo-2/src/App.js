@@ -14,7 +14,8 @@ class App extends Component {
     const socket = socketIOClient(endpoint)
     socket.on("FromSD2", data =>
       this.setState({ response1: data.data1, response2: data.data2 })
-    )
+     )
+     console.log("Server 2")
   }
   render() {
     const { response1, response2 } = this.state

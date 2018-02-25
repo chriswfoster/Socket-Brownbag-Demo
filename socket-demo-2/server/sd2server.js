@@ -22,10 +22,13 @@ socket.on('FromSD1', function(data) {
 });
 
 let sd1text = "waiting on message..."
-
+let interval;
 ///////////////////////////////////////////// This is where I broadcast the socket.
 io.on("connection", socket => {
-    var intervalId = setInterval(
+    if (interval) {
+        clearInterval(interval);
+      }
+    intervalId = setInterval(
         () => getApiAndEmit(socket),
         5000
       );
@@ -41,7 +44,7 @@ const getApiAndEmit = async socket => {
         data1: sd1text
     }
     console.log(sd2obj)
-    socket.emit("FromSD2", obj);
+    socket.emit("FromSD2", sd2obj);
   } catch (error) {
     console.error(`Error: ${error.code}`);
   }

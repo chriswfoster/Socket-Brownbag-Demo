@@ -20,9 +20,12 @@ socket.on("FromSD2", function(data) {
 })
 
 let sd2text = "waiting on response..."
-
+let interval;
 io.on("connection", socket => {
-  var intervalId = setInterval(() => getApiAndEmit(socket), 5000)
+    if (interval) {
+        clearInterval(interval);
+      }
+  intervalId = setInterval(() => getApiAndEmit(socket), 5000)
 
   socket.on("disconnect", () => {
     console.log("Client disconnected")
@@ -37,7 +40,7 @@ const getApiAndEmit = async socket => {
       data2: sd2text
     }
     socket.emit("FromSD1", sd1obj)
-    console.log(sd1obj)
+    // console.log(sd1obj)
   } catch (error) {
     console.error(`Error: ${error.code}`)
   }
